@@ -6,11 +6,11 @@ for id in $(ls); do
 
     echo $id;
     cd $id;
-    #zip $id.zip -r ./*;
+    zip $id.zip -r ./*;
     AA='mv'
     BB="$id.zip"
     CC='..'
-    echo "$AA $BB $CC"
+    eval "$AA $BB $CC"
     cd ..
     echo "out: $id.zip"
 
