@@ -13,5 +13,6 @@ for id in $(ls); do
     eval "$AA $BB $CC"
     cd ..
     echo "out: $id.zip"
+    rm -r "$id.zip"
 
 done
