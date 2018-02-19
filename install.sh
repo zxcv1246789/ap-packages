@@ -9,7 +9,7 @@ for id in $(ls); do
     zip $id.zip -r ./*;
     AA='mv'
     BB="$id.zip"
-    CC='../'
+    CC='../../'
     eval "$AA $BB $CC"
     cd ..
     echo "out: $id.zip"
