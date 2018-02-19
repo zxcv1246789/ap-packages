@@ -2,7 +2,7 @@
 
 cd packages
 
-for id in $(ls) do
+for id in $(ls); do
 
     echo $id;
     cd $id;
