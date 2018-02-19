@@ -6,6 +6,7 @@ for id in 'ls'; do
 
   if [ $id = "ls" ]
   then
+    echo "exittt";
     exit
   else
     echo $id;
