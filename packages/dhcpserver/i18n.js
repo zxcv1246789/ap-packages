@@ -92,6 +92,10 @@ function updateContent_infor() {
     document.getElementById('i18_dnsmasq_dec_stop').innerHTML = i18next.t('dnsmasq_dec_stop');
   }
 
+}
+function updateContent_serversetting(){
+  document.getElementById('i18_starting_ip').innerHTML = i18next.t('starting_ip');
+  document.getElementById('i18_end_ip').innerHTML = i18next.t('ending_ip');
   document.getElementById('i18_leasetime').innerHTML = i18next.t('lease_time');
 }
 function updateContent_dnsmasq_startstop(){
@@ -129,4 +133,5 @@ i18next.on('languageChanged', () => {
   updateContent_infor();
   updateContent_clientlist();
   updateContent_buttoninput();
+  updateContent_serversetting();
 });
