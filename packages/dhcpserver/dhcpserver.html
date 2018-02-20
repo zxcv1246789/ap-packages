@@ -10,6 +10,8 @@
 
   <title>Raspbian WiFi Configuration Portal</title>
 
+  <script src="https://unpkg.com/i18next/i18next.js"></script>
+
   <!-- Bootstrap Core CSS -->
   <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -65,6 +67,12 @@
         <!-- /.navbar-collapse -->
       </div>
       <!-- /.navbar-default -->
+      <div style="float: right; padding: 5px 5px;">
+        <select id="lang_select" class="form-control" onchange="changeLng()">
+          <option value="en">english</option>
+          <option value="ko">한국어</option>
+        </select>
+      </div>
     </nav>
 
     <div id="page-wrapper">
@@ -83,7 +91,10 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="panel panel-primary">
-            <div class="panel-heading"><i class="fa fa-exchange fa-fw"></i> Configure DHCP
+            <div class="panel-heading"><i class="fa fa-exchange fa-fw"></i>
+              <div style="display:inline" id="i18_confdhcp">
+                Configure DHCP
+              </div>
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
@@ -91,20 +102,19 @@
               </p>
               <!-- Nav tabs -->
               <ul class="nav nav-tabs">
-                <li class="active"><a href="#server-settings" data-toggle="tab">Server settings</a>
+                <li class="active"><a href="#server-settings" data-toggle="tab" id="i18_serverset">Server settings</a>
                 </li>
-                <li><a href="#client-list" data-toggle="tab">Client list</a>
+                <li><a href="#client-list" data-toggle="tab" id="i18_clientlist">Client list</a>
                 </li>
               </ul>
               <!-- Tab panes -->
               <div class="tab-content">
                 <div class="tab-pane fade in active" id="server-settings">
-                  <h4>DHCP server settings</h4>
+                  <h4 id="i18_dhcpserver_set">DHCP server settings</h4>
                   <form method="POST" action="?page=dhcpd_conf">
-                    <?php CSRFToken() ?>
                     <div class="row">
                       <div class="form-group col-md-4">
-                        <label for="code">Interface</label>
+                        <label for="code" id="i18_tab_interface">Interface</label>
                         <select class="form-control" name="interface" id="interface_id">
 
                         </select>
@@ -125,7 +135,7 @@
                       <div class="form-group col-xs-4 col-sm-2" id="Lease_time_div_id">
                       </div>
                       <div class="col-xs-4 col-sm-2" id="interval_div_id">
-                        <label for="code">Interval</label>
+                        <label for="code" id="i18_interval">Interval</label>
                         <select name="RangeLeaseTimeUnits" class="form-control" id="interval_id">
                         </select>
                       </div>
@@ -139,14 +149,14 @@
 
                 <div class="tab-pane fade in" id="client-list">
                   <br>
-                  <h4>Client list</h4>
+                  <h4 id="i18_tab_clientlist">Client list</h4>
                   <div class="btn-group btn-block">
-                    <input type="button" style="padding:10px;float: right;display: block;position: relative;margin-top: -55px;" class="col-md-2 btn btn-info" value="Rescan" onclick="rescan_button()" />
+                    <input type="button" style="padding:10px;float: right;display: block;position: relative;margin-top: -55px;" class="col-md-2 btn btn-info" id="i18_rescanbtn" value="Rescan" onclick="rescan_button()" />
                     <!--<a href="" style="padding:10px;float: right;display: block;position: relative;margin-top: -55px;" class="col-md-2 btn btn-info" id="update">Rescan</a>-->
                   </div>
                   <div class="col-lg-12">
                     <div class="panel panel-default">
-                      <div class="panel-heading">
+                      <div class="panel-heading" id="i18_active_dhcp_leases">
                         Active DHCP leases
                       </div>
                       <!-- /.panel-heading -->
@@ -155,11 +165,6 @@
                           <table class="table table-hover" id="client_information_table">
                             <thead>
                               <tr>
-                                <th>Expire time</th>
-                                <th>MAC Address</th>
-                                <th>IP Address</th>
-                                <th>Host name</th>
-                                <th>Client ID</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -181,7 +186,7 @@
               <!-- /.tab-content -->
             </div>
             <!-- ./ Panel body -->
-            <div class="panel-footer"> Information provided by Dnsmasq</div>
+            <div class="panel-footer" id="i18_dnsmasq_infor_prov" > Information provided by Dnsmasq</div>
           </div>
           <!-- /.panel-primary -->
         </div>
@@ -195,6 +200,8 @@
   </div>
   <!-- /#wrapper -->
 
+  <!-- i18n JavaScript -->
+  <script src="i18n/dhcpserver/i18n.js"></script>
   <!-- RaspAP JavaScript -->
   <script src="dist/js/functions.js"></script>
 
@@ -277,6 +284,7 @@
 
     function client_list_output(data) {
       document.getElementById("client_information_table").innerHTML = dhcpserver_clientlist_data_fill(data);
+      updateContent_infor();
     }
 
 
@@ -312,7 +320,7 @@
       var content = "";
       var type = "";
 
-      content += "<thead><tr><th>Expire time</th><th>MAC Address</th><th>IP Address</th><th>Host name</th><th>Client ID</th></tr></thead>";
+      content += "<thead><tr><th id=i18_expiretime>Expire time</th><th id=i18_mac>MAC Address</th><th id=i18_ip>IP Address</th><th id=i18_hostname>Host name</th><th id=i18_client_id>Client ID</th></tr></thead>";
       for (var i = 1; i < 5; i++) {
         var a = String(i);
         type = "client_list_";
@@ -349,17 +357,21 @@
 
     function dnsmasq_output(data) {
       document.getElementById("interface_decide_id").innerHTML = Dnsmasq_updown(data);
+      updateContent_infor();
     }
 
     function Dnsmasq_updown(data) {
       var content = "<div class='alert alert-success alert-dismissable'>";
-      content += "Dnsmasq is ";
       if (data['alert_select']['Dnsmasq is'] == true) {
+        content += "<div style=display:inline id=i18_dnsmasq_dec_run>";
+        content += "Dnsmasq is ";
         content += "running";
       } else {
+        content += "<div style=display:inline id=i18_dnsmasq_dec_stop>";
+        content += "Dnsmasq is ";
         content += "stop";
       }
-      content += "<button type=button class=close data-dismiss=alert aria-hidden=true>x</button>";
+      content += "</div><button type=button class=close data-dismiss=alert aria-hidden=true>x</button>";
       content += "</div>";
       return content;
     }
@@ -389,21 +401,21 @@
 
     function starting_IP_address_select(data) {
       var starting_IP_address = data['starting_IP_address'];
-      var content = "<label for=code>Starting IP Address</label>";
+      var content = "<label for=code id=i18_starting_ip>Starting IP Address</label>";
       content += "<input type=text class=form-control name=RangeStart id=starting_IP_address_id value=" + starting_IP_address + " />"
       document.getElementById("starting_IP_address_div_id").innerHTML = content;
     }
 
     function ending_IP_address_select(data) {
       var ending_IP_address = data['ending_IP_address'];
-      var content = "<label for=code>Ending IP Address</label>";
+      var content = "<label for=code id=i18_end_ip>Ending IP Address</label>";
       content += "<input type=text class=form-control name=RangeEnd id=ending_IP_address_id value=" + ending_IP_address + " />"
       document.getElementById("ending_IP_address_div_id").innerHTML = content;
     }
 
     function lease_time_select(data) {
       var lease_time = data['Lease_time'];
-      var content = "<label for=code>Lease time</label>";
+      var content = "<label for=code id=i18_leasetime>Lease time</label>";
       content += "<input type=text class=form-control name=RangeLeaseTime id=Lease_time_id value=" + lease_time + " />"
       document.getElementById("Lease_time_div_id").innerHTML = content;
     }
@@ -487,13 +499,14 @@
     function button_input(data) {
       var content = "";
       if (data == 1) {
-        content = "<input type=button class='btn btn-outline btn-primary' value='Save settings' name=savedhcpdsettings onclick=savesetting_button() />";
-        content += "<input type=button class='btn btn-warning' value='Stop dnsmasq' name='stopdhcpd' onclick=change_dnsmasq_stopstart_button(0) />";
+        content = "<input type=button class='btn btn-outline btn-primary' id=i18_savesetbtn value='Save settings' name=savedhcpdsettings onclick=savesetting_button() />";
+        content += "<input type=button class='btn btn-warning' id=i18_stopbtn value='Stop dnsmasq' name='stopdhcpd' onclick=change_dnsmasq_stopstart_button(0) />";
       } else if (data == 0) {
-        content = "<input type=button class='btn btn-outline btn-primary' value='Save settings' name=savedhcpdsettings onclick=savesetting_button() />";
-        content += "<input type=button class='btn btn-success' value='Start dnsmasq' name='stopdhcpd' onclick=change_dnsmasq_stopstart_button(1) />";
+        content = "<input type=button class='btn btn-outline btn-primary' id=i18_savesetbtn value='Save settings' name=savedhcpdsettings onclick=savesetting_button() />";
+        content += "<input type=button class='btn btn-success' id=i18_startbtn value='Start dnsmasq' name='stopdhcpd' onclick=change_dnsmasq_stopstart_button(1) />";
       }
       document.getElementById("startstop_button_id").innerHTML = content;
+      updateContent_buttoninput();
     }
 
     function change_dnsmasq_stopstart_button(select) {
