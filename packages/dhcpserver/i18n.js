@@ -84,7 +84,7 @@ function updateContent_infor() {
   document.getElementById('i18_rescanbtn').innerHTML = i18next.t('rescanbtn');
   document.getElementById('i18_active_dhcp_leases').innerHTML = i18next.t('active_dhcp_leases');
   document.getElementById('i18_dnsmasq_infor_prov').innerHTML = i18next.t('dnsmasq_infor_prov');
-  document.getElementById('i18_rescanbtn').innerHTML = i18next.t('rescanbtn');
+  document.getElementById('i18_rescanbtn').value = i18next.t('rescanbtn');
 
   if(document.getElementById('i18_dnsmasq_dec_run') != null) {
     document.getElementById('i18_dnsmasq_dec_run').innerHTML = i18next.t('dnsmasq_dec_run');
