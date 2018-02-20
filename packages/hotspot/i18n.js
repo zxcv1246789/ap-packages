@@ -98,8 +98,9 @@ function updateContent_infor() {
   document.getElementById('i18_secu_type').innerHTML = i18next.t('secu_type');
   document.getElementById('i18_enc_type').innerHTML = i18next.t('enc_type');
   document.getElementById('i18_psk').innerHTML = i18next.t('psk');
+  document.getElementById('i18_advanced_setting').innerHTML = i18next.t('advanced_setting');
   document.getElementById('i18_logfile_output').innerHTML = i18next.t('logfile_output');
-  document.getElementById('i18_enable_logging').innerHTML = i18next.t('advanced_setting');
+  document.getElementById('i18_enable_logging').innerHTML = i18next.t('enable_logging');
   document.getElementById('i18_country_code').innerHTML = i18next.t('country_code');
   document.getElementById('i18_hostapd_infor_prov').innerHTML = i18next.t('hostapd_infor_prov');
 }
@@ -110,37 +111,37 @@ function updateContent_not_logenable(){
 }
 function updateContent_hostapd_startstop(){
   if(document.getElementById('i18_hostapd_dec_run') != null) {
-    document.getElementById('i18_hostapd_dec_run').value = i18next.t('hostapd_dec_run');
+    document.getElementById('i18_hostapd_dec_run').innerHTML = i18next.t('hostapd_dec_run');
   }
   if(document.getElementById('i18_hostapd_dec_stop') != null) {
-    document.getElementById('i18_hostapd_dec_stop').value = i18next.t('hostapd_dec_stop');
+    document.getElementById('i18_hostapd_dec_stop').innerHTML = i18next.t('hostapd_dec_stop');
   }
 }
 function updateContent_basic_btn(){
-  document.getElementById('i18_basic_savesetbtn').innerHTML = i18next.t('basic_savesetbtn');
+  document.getElementById('i18_basic_savesetbtn').value = i18next.t('basic_savesetbtn');
   if(document.getElementById('i18_basic_hotspotstop') != null) {
-    document.getElementById('i18_basic_hotspotstop').innerHTML = i18next.t('basic_hotspotstop');
+    document.getElementById('i18_basic_hotspotstop').value = i18next.t('basic_hotspotstop');
   }
   if(document.getElementById('i18_basic_hotspotstart') != null) {
-    document.getElementById('i18_basic_hotspotstart').innerHTML = i18next.t('basic_hotspotstart');
+    document.getElementById('i18_basic_hotspotstart').value = i18next.t('basic_hotspotstart');
   }
 }
 function updateContent_security_btn(){
-  document.getElementById('i18_security_savesetbtn').innerHTML = i18next.t('security_savesetbtn');
+  document.getElementById('i18_security_savesetbtn').value = i18next.t('security_savesetbtn');
   if(document.getElementById('i18_security_hotspotstop') != null) {
-    document.getElementById('i18_security_hotspotstop').innerHTML = i18next.t('security_hotspotstop');
+    document.getElementById('i18_security_hotspotstop').value = i18next.t('security_hotspotstop');
   }
   if(document.getElementById('i18_security_hotspotstart') != null) {
-    document.getElementById('i18_security_hotspotstart').innerHTML = i18next.t('security_hotspotstart');
+    document.getElementById('i18_security_hotspotstart').value = i18next.t('security_hotspotstart');
   }
 }
 function updateContent_advanced_btn(){
-  document.getElementById('i18_advanced_savesetbtn').innerHTML = i18next.t('advanced_savesetbtn');
+  document.getElementById('i18_advanced_savesetbtn').value = i18next.t('advanced_savesetbtn');
   if(document.getElementById('i18_advanced_hotspotstop') != null) {
-    document.getElementById('i18_advanced_hotspotstop').innerHTML = i18next.t('advanced_hotspotstop');
+    document.getElementById('i18_advanced_hotspotstop').value = i18next.t('advanced_hotspotstop');
   }
   if(document.getElementById('i18_advanced_hotspotstart') != null) {
-    document.getElementById('i18_advanced_hotspotstart').innerHTML = i18next.t('advanced_hotspotstart');
+    document.getElementById('i18_advanced_hotspotstart').value = i18next.t('advanced_hotspotstart');
   }
 }
 
