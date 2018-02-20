@@ -1,7 +1,7 @@
 module.exports = function(app, fs, url){
 	var router_theme = require('./theme.js');
 
-	app.get('/changetheme', function(req, res) {
+	app.get('/theme', function(req, res) {
     var sess;
     sess = req.session;
     console.log('session : ' + sess.logincheck);
