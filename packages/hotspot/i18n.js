@@ -18,8 +18,11 @@ i18next.init({
         "security_setting": "Security settings",
         "secu_type": "Security type",
         "enc_type": "Encryption Type",
+        "psk": "PSK",
         "logfile_output": "Logfile output",
         "advanced_setting": "Advanced settings",
+        "enable_logging": "Enable Logging",
+        "log_notenable": "Logfile output not enabled",
         "country_code": "Country Code",
         "hostapd_infor_prov": "Information provided by hostapd",
         "hostapd_dec_run": "HostAPD is running",
@@ -49,8 +52,11 @@ i18next.init({
         "security_setting": "보안 설정",
         "secu_type": "보안 유형",
         "enc_type": "암호화 유형",
+        "psk": "비밀번호",
         "logfile_output": "로그 파일 출력",
         "advanced_setting": "고급 설정",
+        "enable_logging": "로그 출력 사용 설정",
+        "log_notenable": "로그 파일 출력이 활성화되지 않았습니다.",
         "country_code": "국가 코드",
         "hostapd_infor_prov": "Hostapd에서 제공한 정보입니다.",
         "hostapd_dec_run": "HostAPD가 실행중 입니다.",
@@ -89,19 +95,26 @@ function updateContent_infor() {
   document.getElementById('i18_wireless_mode').innerHTML = i18next.t('wireless_mode');
   document.getElementById('i18_channel').innerHTML = i18next.t('channel');
   document.getElementById('i18_security_setting').innerHTML = i18next.t('security_setting');
-  document.getElementById('i18_secu_type').value = i18next.t('secu_type');
+  document.getElementById('i18_secu_type').innerHTML = i18next.t('secu_type');
   document.getElementById('i18_enc_type').innerHTML = i18next.t('enc_type');
+  document.getElementById('i18_psk').innerHTML = i18next.t('psk');
   document.getElementById('i18_logfile_output').innerHTML = i18next.t('logfile_output');
-  document.getElementById('i18_advanced_setting').innerHTML = i18next.t('advanced_setting');
+  document.getElementById('i18_enable_logging').innerHTML = i18next.t('advanced_setting');
+  document.getElementById('i18_').innerHTML = i18next.t('logfile_output');
   document.getElementById('i18_country_code').innerHTML = i18next.t('country_code');
-  document.getElementById('i18_hostapd_infor_prov').value = i18next.t('hostapd_infor_prov');
+  document.getElementById('i18_hostapd_infor_prov').innerHTML = i18next.t('hostapd_infor_prov');
+}
+function updateContent_not_logenable(){
+  if(document.getElementById('i18_log_notenable') != null) {
+    document.getElementById('i18_log_notenable').innerHTML = i18next.t('log_notenable');
+  }
 }
 function updateContent_hostapd_startstop(){
   if(document.getElementById('i18_hostapd_dec_run') != null) {
-    document.getElementById('i18_hostapd_dec_run').innerHTML = i18next.t('hostapd_dec_run');
+    document.getElementById('i18_hostapd_dec_run').value = i18next.t('hostapd_dec_run');
   }
   if(document.getElementById('i18_hostapd_dec_stop') != null) {
-    document.getElementById('i18_hostapd_dec_stop').innerHTML = i18next.t('hostapd_dec_stop');
+    document.getElementById('i18_hostapd_dec_stop').value = i18next.t('hostapd_dec_stop');
   }
 }
 function updateContent_basic_btn(){
@@ -144,4 +157,5 @@ i18next.on('languageChanged', () => {
   updateContent_basic_btn();
   updateContent_security_btn();
   updateContent_advanced_btn();
+  updateContent_not_logenable();
 });
