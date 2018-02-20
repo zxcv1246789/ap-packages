@@ -100,7 +100,6 @@ function updateContent_infor() {
   document.getElementById('i18_psk').innerHTML = i18next.t('psk');
   document.getElementById('i18_logfile_output').innerHTML = i18next.t('logfile_output');
   document.getElementById('i18_enable_logging').innerHTML = i18next.t('advanced_setting');
-  document.getElementById('i18_').innerHTML = i18next.t('logfile_output');
   document.getElementById('i18_country_code').innerHTML = i18next.t('country_code');
   document.getElementById('i18_hostapd_infor_prov').innerHTML = i18next.t('hostapd_infor_prov');
 }
