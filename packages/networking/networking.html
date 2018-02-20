@@ -10,6 +10,7 @@
 
   <title>Raspbian WiFi Configuration Portal</title>
 
+  <script src="https://unpkg.com/i18next/i18next.js"></script>
   <!-- Bootstrap Core CSS -->
   <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -65,6 +66,12 @@
         <!-- /.navbar-collapse -->
       </div>
       <!-- /.navbar-default -->
+      <div style="float: right; padding: 5px 5px;">
+        <select id="lang_select" class="form-control" onchange="changeLng()">
+          <option value="en">english</option>
+          <option value="ko">한국어</option>
+        </select>
+      </div>
     </nav>
 
     <div id="page-wrapper">
@@ -84,32 +91,35 @@
         <div class="col-lg-12">
           <div class="panel panel-primary">
             <div class="panel panel-heading">
-              <i class="fa fa-sitemap fa-fw"></i> Configure Networking
+              <i class="fa fa-sitemap fa-fw"></i>
+              <div style="display:inline" id="i18_confnetworking">
+                Configure Networking
+              </div>
             </div>
             <div class="panel-body">
               <div id="msgNetworking"></div>
               <ul class="nav nav-tabs">
                 <li role="presentation" class="active">
-                  <a href="#summary" aria-controls="summary" role="tab" data-toggle="tab">Summary</a></li>
+                  <a href="#summary" aria-controls="summary" role="tab" data-toggle="tab" id="i18_summarytab">Summary</a></li>
                 <li role="presentation">
-                  <a href="#eth0" aria-controls="eth0" role="tab" data-toggle="tab">eth0</a></li>
+                  <a href="#eth0" aria-controls="eth0" role="tab" data-toggle="tab" id="i18_eth0tab">eth0</a></li>
                 <li role="presentation">
-                  <a href="#wlan0" aria-controls="wlan0" role="tab" data-toggle="tab">wlan0</a></li>
+                  <a href="#wlan0" aria-controls="wlan0" role="tab" data-toggle="tab" id="i18_wlan0tab">wlan0</a></li>
               </ul>
               <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="summary">
-                  <h4>Current Settings</h4>
+                  <h4 id="i18_cursetting">Current Settings</h4>
                   <div class="row">
                     <div class="col-md-6">
                       <div class="panel panel-default">
-                        <div class="panel-heading">eth0</div>
+                        <div class="panel-heading" id="i18_eth0">eth0</div>
                         <div class="panel-body" id="eth0-summary">
                         </div>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="panel panel-default">
-                        <div class="panel-heading">wlan0</div>
+                        <div class="panel-heading" id="i18_wlan0">wlan0</div>
                         <div class="panel-body" id="wlan0-summary">
                         </div>
                       </div>
@@ -119,8 +129,12 @@
                   <div class="col-lg-12">
                     <div class="row">
                       <input type="button" class="btn btn-outline btn-primary" value="Refresh" name="btnsummarybutton" onclick="Load()" />
-                        <i class="fa fa-refresh">
-                        </i> Refresh</a>
+                      <i class="fa fa-refresh">
+                        </i>
+                      <div style="display:inline" id="i18_refresh">
+                        Refresh
+                      </div>
+                      </a>
 
                     </div>
                     <!-- /.row -->
@@ -133,52 +147,64 @@
                     <div class="col-lg-6">
                       <form id="frm-eth0">
                         <div class="form-group">
-                          <h4>Adapter IP Address Settings</h4>
+                          <h4 id="i18_eth0adapt_ip_setting">Adapter IP Address Settings</h4>
                           <div class="btn-group" data-toggle="buttons">
                             <label class="btn btn-primary">
-                                    <input type="radio" name="eth0-addresstype" id="eth0-dhcp" value="1" autocomplete="off">DHCP
+                                    <input type="radio" name="eth0-addresstype" id="eth0-dhcp" value="1" autocomplete="off">
+                                    <div style="display:inline" id="i18_eth0dhcp">
+                                    DHCP
+                                  </div>
                                   </label>
                             <label class="btn btn-primary">
-                                    <input type="radio" name="eth0-addresstype" id="eth0-static" value="2" autocomplete="off">Static IP
+                                    <input type="radio" name="eth0-addresstype" id="eth0-static" value="2" autocomplete="off">
+                                    <div style="display:inline" id="i18_eth0ststic_ip">
+                                    Static IP
+                                  </div>
                                   </label>
                           </div>
                           <!-- /.btn-group -->
-                          <h4>Enable Fallback to Static Option</h4>
+                          <h4 id="i18_eth0enable_fallback">Enable Fallback to Static Option</h4>
                           <div class="btn-group" data-toggle="buttons">
                             <label class="btn btn-primary">
-                                    <input type="radio" name="eth0-dhcpfailover" id="eth0-failover" value="1" autocomplete="off">Enabled
+                                    <input type="radio" name="eth0-dhcpfailover" id="eth0-failover" value="1" autocomplete="off">
+                                    <div style="display:inline" id="i18_eth0enabled">
+                                    Enabled
+                                  </div>
                                   </label>
                             <label class="btn btn-warning">
-                                    <input type="radio" name="eth0-dhcpfailover" id="eth0-nofailover" value="0" autocomplete="off">Disabled
+                                    <input type="radio" name="eth0-dhcpfailover" id="eth0-nofailover" value="0" autocomplete="off">
+                                    <div style="display:inline" id="i18_eth0disabled">
+                                    Disabled
+                                  </div>
                                   </label>
                           </div>
                           <!-- /.btn-group -->
                         </div>
                         <!-- /.form-group -->
                         <hr />
-                        <h4>Static IP Options</h4>
+                        <h4 id="i18_eth0static_ip_option">Static IP Options</h4>
                         <div class="form-group">
-                          <label for="eth0-ipaddress">IP Address</label>
+                          <label for="eth0-ipaddress" id="i18_eth0ip">IP Address</label>
                           <input type="text" class="form-control" id="eth0-ipaddress" placeholder="0.0.0.0">
                         </div>
                         <div class="form-group">
-                          <label for="eth0-netmask">Subnet Mask</label>
+                          <label for="eth0-netmask" id="i18_eth0subnetmask">Subnet Mask</label>
                           <input type="text" class="form-control" id="eth0-netmask" placeholder="255.255.255.0">
                         </div>
                         <div class="form-group">
-                          <label for="eth0-gateway">Default Gateway</label>
+                          <label for="eth0-gateway" id="i18_eth0default_gateway">Default Gateway</label>
                           <input type="text" class="form-control" id="eth0-gateway" placeholder="0.0.0.0">
                         </div>
                         <div class="form-group">
-                          <label for="eth0-dnsssvr">DNS Server</label>
+                          <label for="eth0-dnsssvr" id="i18_eth0dns_server">DNS Server</label>
                           <input type="text" class="form-control" id="eth0-dnssvr" placeholder="0.0.0.0">
                         </div>
                         <div class="form-group">
-                          <label for="eth0-dnssvralt">Alternate DNS Server</label>
+                          <label for="eth0-dnssvralt" id="i18_eth0alternate_dns">Alternate DNS Server</label>
                           <input type="text" class="form-control" id="eth0-dnssvralt" placeholder="0.0.0.0">
                         </div>
-                        <input type="button" class="btn btn-outline btn-primary" value="Save settings" name="savedhcpdsettings" onclick="savesetting_button(0)" />
-                        <a href="#" class="btn btn-warning intapply" data-int="eth0">Apply Settings</a>
+                        <input type="button" class="btn btn-outline btn-primary" id="i18_eth0savesetbtn" value="Save settings" name="savedhcpdsettings" onclick="savesetting_button(0)" />
+                        <a href="#" class="btn btn-warning intapply" data-int="eth0" id="i18_eth0apply_setting">Apply Settings</a>
                       </form>
                     </div>
                   </div>
@@ -189,52 +215,64 @@
                     <div class="col-lg-6">
                       <form id="frm-wlan0">
                         <div class="form-group">
-                          <h4>Adapter IP Address Settings</h4>
+                          <h4 id="i18_wlan0adapt_ip_setting">Adapter IP Address Settings</h4>
                           <div class="btn-group" data-toggle="buttons">
                             <label class="btn btn-primary">
-                                  <input type="radio" name="wlan0-addresstype" id="wlan0-dhcp" value="1" autocomplete="off">DHCP
+                                  <input type="radio" name="wlan0-addresstype" id="wlan0-dhcp" value="1" autocomplete="off">
+                                  <div style="display:inline" id="i18_wlan0dhcp">
+                                  DHCP
+                                </div>
                                 </label>
                             <label class="btn btn-primary">
-                                  <input type="radio" name="wlan0-addresstype" id="wlan0-static" value="2" autocomplete="off">Static IP
+                                  <input type="radio" name="wlan0-addresstype" id="wlan0-static" value="2" autocomplete="off">
+                                  <div style="display:inline" id="i18_wlan0ststic_ip">
+                                  Static IP
+                                </div>
                                 </label>
                           </div>
                           <!-- /.btn-group -->
-                          <h4>Enable Fallback to Static Option</h4>
+                          <h4 id="i18_wlan0enable_fallback">Enable Fallback to Static Option</h4>
                           <div class="btn-group" data-toggle="buttons">
                             <label class="btn btn-primary">
-                                  <input type="radio" name="wlan0-dhcpfailover" id="wlan0-failover" value="1" autocomplete="off">Enabled
+                                  <input type="radio" name="wlan0-dhcpfailover" id="wlan0-failover" value="1" autocomplete="off">
+                                  <div style="display:inline" id="i18_wlan0enabled">
+                                  Enabled
+                                </div>
                                 </label>
                             <label class="btn btn-warning">
-                                  <input type="radio" name="wlan0-dhcpfailover" id="wlan0-nofailover" value="0" autocomplete="off">Disabled
+                                  <input type="radio" name="wlan0-dhcpfailover" id="wlan0-nofailover" value="0" autocomplete="off">
+                                  <div style="display:inline" id="i18_wlan0disabled">
+                                  Disabled
+                                </div>
                                 </label>
                           </div>
                           <!-- /.btn-group -->
                         </div>
                         <!-- /.form-group -->
                         <hr />
-                        <h4>Static IP Options</h4>
+                        <h4 id="i18_wlan0static_ip_option">Static IP Options</h4>
                         <div class="form-group">
-                          <label for="wlan0-ipaddress">IP Address</label>
+                          <label for="wlan0-ipaddress" id="i18_wlan0ip">IP Address</label>
                           <input type="text" class="form-control" id="wlan0-ipaddress" placeholder="0.0.0.0">
                         </div>
-                        <div class="form-group">
-                          <label for="wlan0-netmask">Subnet Mask</label>
+                        <div class="form-group" >
+                          <label for="wlan0-netmask" id="i18_wlan0subnetmask">Subnet Mask</label>
                           <input type="text" class="form-control" id="wlan0-netmask" placeholder="255.255.255.0">
                         </div>
                         <div class="form-group">
-                          <label for="wlan0-gateway">Default Gateway</label>
+                          <label for="wlan0-gateway" id="i18_wlan0default_gateway">Default Gateway</label>
                           <input type="text" class="form-control" id="wlan0-gateway" placeholder="0.0.0.0">
                         </div>
                         <div class="form-group">
-                          <label for="wlan0-dnsssvr">DNS Server</label>
+                          <label for="wlan0-dnsssvr" id="i18_wlan0dns_server">DNS Server</label>
                           <input type="text" class="form-control" id="wlan0-dnssvr" placeholder="0.0.0.0">
                         </div>
                         <div class="form-group">
-                          <label for="wlan0-dnssvralt">Alternate DNS Server</label>
+                          <label for="wlan0-dnssvralt" id="i18_wlan0alternate_dns">Alternate DNS Server</label>
                           <input type="text" class="form-control" id="wlan0-dnssvralt" placeholder="0.0.0.0">
                         </div>
-                        <input type="button" class="btn btn-outline btn-primary" value="Save settings" name="savedhcpdsettings" onclick="savesetting_button(1)" />
-                        <a href="#" class="btn btn-warning intapply" data-int="wlan0">Apply Settings</a>
+                        <input type="button" class="btn btn-outline btn-primary" id="i18_wlan0savesetbtn" value="Save settings" name="savedhcpdsettings" onclick="savesetting_button(1)" />
+                        <a href="#" class="btn btn-warning intapply" data-int="wlan0" id="i18_wlan0apply_setting">Apply Settings</a>
                       </form>
                     </div>
                   </div>
@@ -244,7 +282,7 @@
               <!-- /.tab-content -->
             </div>
             <!-- /.panel-body -->
-            <div class="panel-footer">Information provided by /sys/class/net</div>
+            <div class="panel-footer" id="i18_net_infor_prov">Information provided by /sys/class/net</div>
           </div>
           <!-- /.panel-primary -->
         </div>
@@ -259,6 +297,8 @@
 
   <!-- RaspAP JavaScript -->
 
+  <!-- i18n JavaScript -->
+  <script src="i18n/networking/i18n.js"></script>
   <!-- jQuery -->
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
 
@@ -281,10 +321,9 @@
   <script>
     function savesetting_button(index) {
       var select = "";
-      if (index == 0) {//adapt 결정하는 부분
+      if (index == 0) { //adapt 결정하는 부분
         select = "eth0";
-      }
-      else if (index == 1) {
+      } else if (index == 1) {
         select = "wlan0";
       }
       var adapt_ip_address_select = document.getElementsByName(select + "-addresstype");
@@ -299,7 +338,7 @@
 
       var obj = new Object();
 
-      for(var i = 0;i < adapt_ip_address_select.length; i++){
+      for (var i = 0; i < adapt_ip_address_select.length; i++) {
         if (adapt_ip_address_select[i].checked == true) {
           obj.adapt_ip_address_select = adapt_ip_address_select[i].value;
         }
@@ -319,11 +358,11 @@
       savesetting_data_send(json_data, select);
     }
 
-    function savesetting_data_send(json_data, select){
+    function savesetting_data_send(json_data, select) {
       const xhr = new XMLHttpRequest();
       // by default async
       xhr.open("POST", "/api/networking?adaptname=" + select, true);
-      xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+      xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
       xhr.responseType = 'json';
 
       xhr.onload = function() {

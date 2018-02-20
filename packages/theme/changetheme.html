@@ -10,6 +10,8 @@
 
   <title>Raspbian WiFi Configuration Portal</title>
 
+  <script src="https://unpkg.com/i18next/i18next.js"></script>
+
   <!-- Bootstrap Core CSS -->
   <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -66,6 +68,12 @@
         <!-- /.navbar-collapse -->
       </div>
       <!-- /.navbar-default -->
+      <div style="float: right; padding: 5px 5px;">
+        <select id="lang_select" class="form-control" onchange="changeLng()">
+          <option value="en">english</option>
+          <option value="ko">한국어</option>
+        </select>
+      </div>
     </nav>
 
     <div id="page-wrapper">
@@ -87,6 +95,9 @@
     <!-- /#page-wrapper -->
   </div>
   <!-- /#wrapper -->
+
+  <!-- i18n JavaScript -->
+  <script src="i18n/theme/i18n.js"></script>
 
   <!-- RaspAP JavaScript -->
   <script src="dist/js/functions.js"></script>
