@@ -55,14 +55,6 @@
             <span class="icon-bar"></span>
           </button>
         <a class="navbar-brand" href="index_login" id="test">RaspAP Wifi Portal v1.3.0</a>
-        <div style="height: 100px; float: right">
-          <button onclick="i18next.changeLanguage('en')">
-            english
-          </button>
-          <button onclick="i18next.changeLanguage('kr')">
-            한국어
-          </button>
-        </div>
       </div>
       <!-- /.navbar-header -->
 
@@ -75,6 +67,12 @@
         <!-- /.navbar-collapse -->
       </div>
       <!-- /.navbar-default -->
+      <div style="float: right; padding: 5px 5px;">
+        <select id="lang_select" class="form-control" onchange="changeLng()">
+          <option value="en">english</option>
+          <option value="ko">한국어</option>
+        </select>
+      </div>
     </nav>
 
     <div id="page-wrapper">
@@ -93,24 +91,24 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="panel panel-primary">
-            <div class="panel-heading"><i class="fa fa-lock fa-fw"></i>Configure Auth</div>
+            <div class="panel-heading"><i class="fa fa-lock fa-fw" id="i18_confauth"></i>Configure Auth</div>
             <div class="panel-body" id="user_id_password_input_id">
               <p>
               </p>
               <form role="form" method="POST">
                 <div class="row">
                   <div class="form-group col-md-4">
-                    <label for="username">Username</label>
+                    <label for="username" id="i18_username">Username</label>
                     <input type="text" class="form-control" name="username" value="admin" id="username_id" required/>
                   </div>
                 </div>
                 <div class="row">
                   <div class="form-group col-md-4">
-                    <label for="password">Old password</label>
+                    <label for="password" id="i18_oldpwd">Old password</label>
                     <input type="password" class="form-control" name="oldpass" id="Oldpassword_id" pattern="[A-Za-z0-9]{8,}" title="8자 이상 입력하세요." required/>
                   </div>
                 </div>
-                <input type="button" class="btn btn-outline btn-primary" name="UpdateAdminPassword" value="Login" onclick="server_get_userdata(1)" />
+                <input type="button" class="btn btn-outline btn-primary" id="i18_nextbtn" name="UpdateAdminPassword" value="Login" onclick="server_get_userdata(1)" />
               </form>
             </div>
             <!-- /.panel-body -->
@@ -126,10 +124,7 @@
   </div>
   <!-- /#wrapper -->
 
-  <!-- RaspAP JavaScript -->
-  <script src="dist/js/functions.js"></script>
 
-  <script src="side_menu/functions.js"></script>
 
   <!-- jQuery -->
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
@@ -146,10 +141,15 @@
   <!--script src="bower_components/morrisjs/morris.min.js"></script-->
   <!--script src="js/morris-data.js"></script-->
 
+  <!-- i18n JavaScript -->
+  <script src="i18n/system/i18n.js"></script>
+  <!-- RaspAP JavaScript -->
+  <script src="dist/js/functions.js"></script>
+
+  <script src="side_menu/functions.js"></script>
   <!-- Custom Theme JavaScript -->
   <script src="dist/js/sb-admin-2.js"></script>
 
-  <script src="i18n/auth/i18n.js"></script>
 
   <script>
     function server_get_userdata(select) {
@@ -182,22 +182,6 @@
         new_password_confirm("admin");
       }
     }
-    /*
-        function user_name_password_confirm(data) {
-
-          var username_data = document.getElementById("username_id").value;
-          var oldpwd_data = document.getElementById("Oldpassword_id").value;
-
-          var myRe = /[A-Za-z0-9]{8,}/;
-          var oldpwd_data_check_Re = myRe.test(oldpwd_data);
-
-          if (username_data == "") {} else if (oldpwd_data == "" || oldpwd_data_check_Re == false) {} else {
-            var admin_check = admin_evaluate(username_data, oldpwd_data, data);
-            if (admin_check == true) {
-              new_password_box_show();
-            } else {}
-          }
-        }*/
 
     function admin_evaluate(data) {
       if (data['check'] = "1") {
@@ -210,21 +194,21 @@
     }
 
     function new_password_box_show() {
-      document.getElementById("user_id_password_input_id").innerHTML = next_password_input_box(); //interface_box_fill(data-target)
+      document.getElementById("user_id_password_input_id").innerHTML = next_password_input_box();
     }
 
     function next_password_input_box() {
       var content = "<p><p><form role=form method=POST>";
       content += "<div class=row>";
       content += "<div class='form-group col-md-4'>";
-      content += "<label for=password>New password</label>";
+      content += "<label for=password id=i18_newpwd>New password</label>";
       content += "<input type=password class=form-control name=newpass id=Newpassword_id pattern=[A-Za-z0-9]{8,} title='8자 이상 입력하세요.' required/>";
       content += "</div></div><div class=row>";
       content += "<div class='form-group col-md-4'>";
-      content += "<label for=password>Repeat New password</label>";
+      content += "<label for=password id=i18_rep_newpwd>Repeat New password</label>";
       content += "<input type=password class=form-control name=newpassagain id=RepeatNewpassword_id pattern=[A-Za-z0-9]{8,} title='8자 이상 입력하세요.' required/>";
       content += "</div></div>";
-      content += "<input type=button class='btn btn-outline btn-primary' name='UpdateAdminPassword' value='Save settings' onclick='server_get_userdata(2)' />";
+      content += "<input type=button class='btn btn-outline btn-primary' id=i18_completebtn name='UpdateAdminPassword' value='Save settings' onclick='server_get_userdata(2)' />";
       content += "</form>";
       return content;
     }
