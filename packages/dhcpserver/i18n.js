@@ -73,7 +73,7 @@ function updateContent_nav() {
 }
 
 function updateContent_infor() {
-  document.getElementById('i18_confdhcp').innerHTML = i18next.t('conf_auth');
+  document.getElementById('i18_confdhcp').innerHTML = i18next.t('conf_dhcp');
 
   document.getElementById('i18_serverset').innerHTML = i18next.t('serversetting');
   document.getElementById('i18_clientlist').innerHTML = i18next.t('clientlist');
@@ -92,9 +92,15 @@ function updateContent_infor() {
     document.getElementById('i18_dnsmasq_dec_stop').innerHTML = i18next.t('dnsmasq_dec_stop');
   }
 
-  document.getElementById('i18_starting_ip').innerHTML = i18next.t('starting_ip');
-  document.getElementById('i18_end_ip').innerHTML = i18next.t('ending_ip');
   document.getElementById('i18_leasetime').innerHTML = i18next.t('lease_time');
+}
+function updateContent_dnsmasq_startstop(){
+  if(document.getElementById('i18_starting_ip') != null) {
+    document.getElementById('i18_starting_ip').innerHTML = i18next.t('starting_ip');
+  }
+  if(document.getElementById('i18_end_ip') != null) {
+    document.getElementById('i18_end_ip').innerHTML = i18next.t('ending_ip');
+  }
 }
 function updateContent_clientlist(){
   document.getElementById('i18_expiretime').innerHTML = i18next.t('expiretime');
