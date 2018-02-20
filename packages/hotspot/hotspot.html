@@ -10,6 +10,8 @@
 
   <title>Raspbian WiFi Configuration Portal</title>
 
+  <script src="https://unpkg.com/i18next/i18next.js"></script>
+
   <!-- Bootstrap Core CSS -->
   <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -66,6 +68,12 @@
         <!-- /.navbar-collapse -->
       </div>
       <!-- /.navbar-default -->
+      <div style="float: right; padding: 5px 5px;">
+        <select id="lang_select" class="form-control" onchange="changeLng()">
+          <option value="en">english</option>
+          <option value="ko">한국어</option>
+        </select>
+      </div>
     </nav>
 
     <div id="page-wrapper">
@@ -84,7 +92,11 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="panel panel-primary">
-            <div class="panel-heading"><i class="fa fa-dot-circle-o fa-fw"></i> Configure hotspot</div>
+            <div class="panel-heading"><i class="fa fa-dot-circle-o fa-fw"></i>
+              <div style="display:inline" id="i18_confhotspot">
+                Configure hotspot
+              </div>
+            </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
               <p id="HostAPD_decide_id">
@@ -98,20 +110,20 @@
               <form role="form" action="?page=hostapd_conf" method="POST">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs">
-                  <li class="active"><a href="#basic" data-toggle="tab">Basic</a></li>
-                  <li><a href="#security" data-toggle="tab">Security</a></li>
-                  <li><a href="#advanced" data-toggle="tab">Advanced</a></li>
-                  <li><a href="#logoutput" data-toggle="tab">Logfile Output</a></li>
+                  <li class="active"><a href="#basic" data-toggle="tab" id="i18_basictab">Basic</a></li>
+                  <li><a href="#security" data-toggle="tab" id="i18_securitytab">Security</a></li>
+                  <li><a href="#advanced" data-toggle="tab" id="i18_advancedtab">Advanced</a></li>
+                  <li><a href="#logoutput" data-toggle="tab" id="i18_logfileputouttab">Logfile Output</a></li>
                 </ul>
 
                 <!-- Tab panes -->
                 <div class="tab-content">
                   <div class="tab-pane fade in active" id="basic">
                     <form role="form" name="form_basic" method="POST">
-                      <h4>Basic settings</h4>
+                      <h4 id="i18_basic_setting">Basic settings</h4>
                       <div class="row">
                         <div class="form-group col-md-4">
-                          <label for="code">Interface</label>
+                          <label for="code" id="i18_interface">Interface</label>
                           <select class="form-control" name="interface" id="interfaceid">
 
                           </select>
@@ -124,7 +136,7 @@
                       </div>
                       <div class="row">
                         <div class="form-group col-md-4">
-                          <label for="code">Wireless Mode</label>
+                          <label for="code" id="i18_wireless_mode">Wireless Mode</label>
                           <select class="form-control" name="hw_mode" id="w_mode">
 
                         </select>
@@ -132,7 +144,7 @@
                       </div>
                       <div class="row">
                         <div class="form-group col-md-4">
-                          <label for="code">Channel</label>
+                          <label for="code" id="i18_channel">Channel</label>
                           <select class="form-control" name="channel" id="channelid">
 
                         </select>
@@ -145,10 +157,10 @@
                   </div>
                   <div class="tab-pane fade" id="security">
                     <form role="form" action="" method="POST">
-                      <h4>Security settings</h4>
+                      <h4 id="i18_security_setting">Security settings</h4>
                       <div class="row">
                         <div class="form-group col-md-4">
-                          <label for="code">Security type</label>
+                          <label for="code" id="i18_secu_type">Security type</label>
                           <select class="form-control" name="wpa" id="wpaid">
 
                         </select>
@@ -156,7 +168,7 @@
                       </div>
                       <div class="row">
                         <div class="form-group col-md-4">
-                          <label for="code">Encryption Type</label>
+                          <label for="code" id="i18_enc_type">Encryption Type</label>
                           <select class="form-control" name="wpa_pairwise" id="wpa_pairwiseid">
 
                         </select>
@@ -173,7 +185,7 @@
                     </form>
                   </div>
                   <div class="tab-pane fade" id="logoutput">
-                    <h4>Logfile output</h4>
+                    <h4 id="i18_logfile_output">Logfile output</h4>
                     <div class="row">
                       <div class="form-group col-md-8" id="logfile_output">
                       </div>
@@ -181,7 +193,7 @@
                   </div>
                   <div class="tab-pane fade" id="advanced">
                     <form role="form" action="" method="POST">
-                      <h4>Advanced settings</h4>
+                      <h4 id="i18_advanced_setting">Advanced settings</h4>
                       <div class="row">
                         <div class="col-md-4">
                           <div class="form-check">
@@ -193,7 +205,7 @@
                       </div>
                       <div class="row">
                         <div class="form-group col-md-4">
-                          <label for="code">Country Code</label>
+                          <label for="code" id="i18_country_code">Country Code</label>
                           <input type="hidden" id="selected_country" value="<?php echo $arrConfig['country_code'] ?>">
                           <select class="form-control" id="countries" name="country_code">
 
@@ -211,7 +223,7 @@
               </div>
             </div>
             <!-- /.panel-primary -->
-            <div class="panel-footer"> Information provided by hostapd</div>
+            <div class="panel-footer" id="i18_hostapd_infor_prov"> Information provided by hostapd</div>
           </div>
           <!-- /.col-lg-12 -->
         </div>
@@ -222,6 +234,9 @@
       <!-- /#page-wrapper -->
     </div>
     <!-- /#wrapper -->
+
+    <!-- i18n JavaScript -->
+    <script src="i18n/dhcpserver/i18n.js"></script>
     <!-- RaspAP JavaScript -->
     <script src="dist/js/functions.js"></script>
 
@@ -236,7 +251,7 @@
     <!-- json data JavaScript -->
 
     <script src="side_menu/functions.js"></script>
-    
+
     <script src="countrydata.json"></script>
     <!-- Morris Charts JavaScript -->
     <!--script src="bower_components/raphael/raphael-min.js"></script-->
@@ -248,10 +263,13 @@
     <script>
       function HostAPD_updown(data) {
         var content = "<div class='alert alert-success alert-dismissable'>";
-        content += "HostAPD is ";
         if (data['alert_select']['HostAPD is'] == true) {
+          content += "<div style=display:inline id=i18_hostapd_dec_run>";
+          content += "HostAPD is ";
           content += "running";
         } else {
+          content += "<div style=display:inline id=i18_hostapd_dec_stop>";
+          content += "HostAPD is ";
           content += "not running";
         }
         content += "<button type=button class=close data-dismiss=alert aria-hidden=true>x</button>";
@@ -280,6 +298,7 @@
 
       function init(data) { //hostapd 받는 부분
         document.getElementById("HostAPD_decide_id").innerHTML = HostAPD_updown(data);
+        updateContent_hostapd_startstop();
         server_get_basic();
         server_get_security();
         server_get_advanced();
@@ -644,37 +663,40 @@
       function button_input_basic(data) {
         var content = "";
         if (data == 1) {
-          content = "<input type=button class='btn btn-outline btn-primary' name=SaveHostAPDSettings value='Save settings' onclick=basic_data_store_button()>";
-          content += "<input type=button class='btn btn-warning' name=StopHotspot value='Stop hotspot' onclick=change_hotspot_stopstart_button(0)>";
+          content = "<input type=button class='btn btn-outline btn-primary' name=SaveHostAPDSettings id=i18_basic_savesetbtn value='Save settings' onclick=basic_data_store_button()>";
+          content += "<input type=button class='btn btn-warning' name=StopHotspot value='Stop hotspot' id=i18_basic_hotspotstop onclick=change_hotspot_stopstart_button(0)>";
         } else if (data == 0) {
-          content = "<input type=button class='btn btn-outline btn-primary' name=SaveHostAPDSettings value='Save settings' onclick=basic_data_store_button()>";
-          content += "<input type=button class='btn btn-success' name=StopHotspot value='Start hotspot' onclick=change_hotspot_stopstart_button(1)>";
+          content = "<input type=button class='btn btn-outline btn-primary' name=SaveHostAPDSettings id=i18_basic_savesetbtn value='Save settings' onclick=basic_data_store_button()>";
+          content += "<input type=button class='btn btn-success' name=StopHotspot value='Start hotspot' id=i18_basic_hotspotstart onclick=change_hotspot_stopstart_button(1)>";
         }
         document.getElementById("basic_button").innerHTML = content;
+        updateContent_basic_btn();
       }
 
       function button_input_security(data) {
         var content = "";
         if (data == 1) {
-          content = "<input type=button class='btn btn-outline btn-primary' name=SaveHostAPDSettings value='Save settings' onclick=security_data_store_button()>";
-          content += "<input type=button class='btn btn-warning' name=StopHotspot value='Stop hotspot' onclick=change_hotspot_stopstart_button(0)>";
+          content = "<input type=button class='btn btn-outline btn-primary' name=SaveHostAPDSettings id=i18_security_savesetbtn value='Save settings' onclick=security_data_store_button()>";
+          content += "<input type=button class='btn btn-warning' name=StopHotspot value='Stop hotspot' id=i18_security_hotspotstop onclick=change_hotspot_stopstart_button(0)>";
         } else if (data == 0) {
-          content = "<input type=button class='btn btn-outline btn-primary' name=SaveHostAPDSettings value='Save settings' onclick=security_data_store_button()>";
-          content += "<input type=button class='btn btn-success' name=StopHotspot value='Start hotspot' onclick=change_hotspot_stopstart_button(1)>";
+          content = "<input type=button class='btn btn-outline btn-primary' name=SaveHostAPDSettings id=i18_security_savesetbtn value='Save settings' onclick=security_data_store_button()>";
+          content += "<input type=button class='btn btn-success' name=StopHotspot value='Start hotspot' id=i18_security_hotspotstart onclick=change_hotspot_stopstart_button(1)>";
         }
         document.getElementById("security_button").innerHTML = content;
+        updateContent_security_btn();
       }
 
       function button_input_advanced(data) {
         var content = "";
         if (data == 1) {
-          content = "<input type=button class='btn btn-outline btn-primary' name=SaveHostAPDSettings value='Save settings' onclick=advanced_data_store_button()>";
-          content += "<input type=button class='btn btn-warning' name=StopHotspot value='Stop hotspot' onclick=change_hotspot_stopstart_button(0)>";
+          content = "<input type=button class='btn btn-outline btn-primary' name=SaveHostAPDSettings id=i18_advanced_savesetbtn value='Save settings' onclick=advanced_data_store_button()>";
+          content += "<input type=button class='btn btn-warning' name=StopHotspot value='Stop hotspot' id=i18_advanced_hotspotstop onclick=change_hotspot_stopstart_button(0)>";
         } else if (data == 0) {
-          content = "<input type=button class='btn btn-outline btn-primary' name=SaveHostAPDSettings value='Save settings' onclick=advanced_data_store_button()>";
-          content += "<input type=button class='btn btn-success' name=StopHotspot value='Start hotspot' onclick=change_hotspot_stopstart_button(1)>";
+          content = "<input type=button class='btn btn-outline btn-primary' name=SaveHostAPDSettings id=i18_advanced_savesetbtn value='Save settings' onclick=advanced_data_store_button()>";
+          content += "<input type=button class='btn btn-success' name=StopHotspot value='Start hotspot' id=i18_advanced_hotspotstart onclick=change_hotspot_stopstart_button(1)>";
         }
         document.getElementById("advanced_button").innerHTML = content;
+        updateContent_advanced_btn();
       }
 
       function change_hotspot_stopstart_button(select) {
