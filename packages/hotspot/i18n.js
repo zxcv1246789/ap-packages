@@ -187,7 +187,6 @@ function i18n_load() {
   xhr.send();
 }
 i18next.on('languageChanged', () => {
-  updateContent_infor();
   updateContent_hostapd_startstop();
   updateContent_basic_btn();
   updateContent_security_btn();
