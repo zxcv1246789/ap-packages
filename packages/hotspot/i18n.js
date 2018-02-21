@@ -144,7 +144,6 @@ function updateContent_advanced_btn(){
     document.getElementById('i18_advanced_hotspotstart').value = i18next.t('advanced_hotspotstart');
   }
 }
-var count = 0;
 function changeLng() {
   var langSelect = document.getElementById("lang_select");
   var selectValue = langSelect.options[langSelect.selectedIndex].value;
