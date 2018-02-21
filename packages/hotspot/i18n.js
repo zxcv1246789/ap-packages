@@ -161,7 +161,6 @@ function changeLng() {
   };
   xhr.open("GET", "/i18n_save?lang=" + selectValue);
   xhr.send();
-  count++;
 }
 function i18n_load() {
   const xhr = new XMLHttpRequest();
