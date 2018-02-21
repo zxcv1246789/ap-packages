@@ -186,11 +186,7 @@ function i18n_load() {
 }
 var count = 0;
 i18next.on('languageChanged', () => {
-  if (count == 0) {
-
-  } else {
-    updateContent_infor();
-  }
+  updateContent_infor();
   updateContent_hostapd_startstop();
   updateContent_basic_btn();
   updateContent_security_btn();
