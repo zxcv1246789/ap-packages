@@ -37,5 +37,11 @@ module.exports = function(app, fs, url){
   app.post('/api/dhcpserver', function(req, res) {
     router_dhcpserver.api_post(req, res);
   });
+	app.get('/i18n_load', function(req, res) {
+    router_dhcpserver.i18n_load(req, res);
+  });
+	app.get('/i18n_save', function(req, res) {
+    router_dhcpserver.i18n_save(req, res);
+  });
 
 };

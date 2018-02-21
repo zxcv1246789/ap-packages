@@ -18,4 +18,12 @@ module.exports = function(app, fs, url){
     router_networking.api_post(req, res);
   });
 
+	app.get('/i18n_load', function(req, res) {
+    router_networking.i18n_load(req, res);
+  });
+	app.get('/i18n_save', function(req, res) {
+    router_networking.i18n_save(req, res);
+  });
+
+
 };

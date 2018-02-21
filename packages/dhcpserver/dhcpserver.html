@@ -284,6 +284,7 @@
 
     function client_list_output(data) {
       document.getElementById("client_information_table").innerHTML = dhcpserver_clientlist_data_fill(data);
+      i18n_load();
       updateContent_infor();
     }
 

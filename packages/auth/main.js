@@ -31,4 +31,11 @@ module.exports = function(app, fs, url){
     router_auth.api_post(req, res);
   });
 
+	app.get('/i18n_load', function(req, res) {
+    router_auth.i18n_load(req, res);
+  });
+	app.get('/i18n_save', function(req, res) {
+    router_auth.i18n_save(req, res);
+  });
+
 };

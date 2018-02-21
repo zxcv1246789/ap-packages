@@ -15,4 +15,11 @@ module.exports = function(app, fs, url){
     router_wpaconfig.api_get(req, res);
   });
 
+	app.get('/i18n_load', function(req, res) {
+    router_wpaconfig.i18n_load(req, res);
+  });
+	app.get('/i18n_save', function(req, res) {
+    router_wpaconfig.i18n_save(req, res);
+  });
+
 };
