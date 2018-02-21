@@ -199,4 +199,5 @@ i18next.on('languageChanged', () => {
   updateContent_advanced_btn();
   updateContent_not_logenable();
   count++;
+  console.log(count);
 });
