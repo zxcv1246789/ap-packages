@@ -144,7 +144,7 @@ function updateContent_advanced_btn(){
     document.getElementById('i18_advanced_hotspotstart').value = i18next.t('advanced_hotspotstart');
   }
 }
-
+var count = 0;
 function changeLng() {
   var langSelect = document.getElementById("lang_select");
   var selectValue = langSelect.options[langSelect.selectedIndex].value;
@@ -161,7 +161,7 @@ function changeLng() {
   };
   xhr.open("GET", "/i18n_save?lang=" + selectValue);
   xhr.send();
-
+  count++;
 }
 function i18n_load() {
   const xhr = new XMLHttpRequest();
@@ -186,10 +186,17 @@ function i18n_load() {
   xhr.responseType = 'json';
   xhr.send();
 }
+var count = 0;
 i18next.on('languageChanged', () => {
+  if (count == 0) {
+
+  } else {
+    updateContent_infor();
+  }
   updateContent_hostapd_startstop();
   updateContent_basic_btn();
   updateContent_security_btn();
   updateContent_advanced_btn();
   updateContent_not_logenable();
+  count++;
 });
