@@ -16,26 +16,30 @@ module.exports = function(app, fs, url){
     sess = req.session;
     var id = req.query.id;
     var password = req.query.password;
-    fs.readFile(__dirname + "/../../userdata/" + "userdata.json", 'utf8', function(err, data) {
-      var userdata = JSON.parse(data); //json text -> json object
-      var check = {};
-      if (id == userdata['admin']['username'] && password == userdata['admin']['password']) {
-        check['check'] = "1";
-      } else {
-        check['check'] = "0";
-      }
-      res.send(check);
-    })
+    router_auth.api_get(id, password);
+		res.send(check);
   });
   app.post('/api/auth', function(req, res) {
-    router_auth.api_post(req, res);
+    let data = router_auth.api_post(req.query.id, req.body);
+		if (data['success'] == 1) {
+			req.session.destroy(function(err) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("session is destroy");
+        }
+      })
+		}
+		res.send(data);
   });
 
 	app.get('/i18n_load', function(req, res) {
-    router_auth.i18n_load(req, res);
+    let data = router_auth.i18n_load();
+		res.send(data);
   });
 	app.get('/i18n_save', function(req, res) {
-    router_auth.i18n_save(req, res);
+    let data = router_auth.i18n_save(req.query.lang);
+		res.send(data);
   });
 
 };

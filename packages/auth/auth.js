@@ -1,61 +1,55 @@
 var fs = require("fs");
 
-exports.api_get = function(req, res) {
-  fs.readFile(__dirname + "/../../userdata/" + "userdata.json", 'utf8', function(err, data) {
-    var userdata = JSON.parse(data); //json text -> json object
-    console.log(userdata);
-    res.send(userdata);
-  })
+exports.api_get = function(id, password) {
+  let data = fs.readFileSync(__dirname + "/../../userdata/" + "userdata.json", 'utf8');
+  var userdata = JSON.parse(data); //json text -> json object
+  var check = {};
+  if (id == userdata['admin']['username'] && password == userdata['admin']['password']) {
+    check['check'] = "1";
+  } else {
+    check['check'] = "0";
+  }
+  return check;
 }
 
-exports.api_post = function(req, res) {
+exports.api_post = function(user_name, body) {
   req.accepts('application/json');
   // input message handling
   var result = {};
-  var user_name = req.query.id;
-  json = req.body;
+  var user_name = user_name;
+  var json = body;
   console.log(user_name);
   console.log('--------------------------------------');
   console.log('changed password : ' + json.password);
-  exports.api_post_datasave(req, res, user_name, result);
+  let result_ = exports.api_post_datasave(body, user_name, result);
+  return result_;
 }
 
-exports.api_post_datasave = function(req, res, user_name, result) {
+exports.api_post_datasave = function(body, user_name, result) {
 
-  fs.readFile(__dirname + "/../../userdata/" + "userdata.json", 'utf8', function(err, data) {
-    var users = JSON.parse(data);
+  let data = fs.readFileSync(__dirname + "/../../userdata/" + "userdata.json", 'utf8');
+  var users = JSON.parse(data);
 
-    // ADD TO DATA
-    users[user_name] = req.body;
+  // ADD TO DATA
+  users[user_name] = body;
+  var result = new Object();
+  // SAVE DATA
+  fs.writeFileSync(__dirname + "/../../userdata/" + "userdata.json",
+    JSON.stringify(users, null, '\t'), "utf8",
+    function(err, data) {
+      result.success = 1;
+    })
 
-    // SAVE DATA
-    fs.writeFile(__dirname + "/../../userdata/" + "userdata.json",
-      JSON.stringify(users, null, '\t'), "utf8",
-      function(err, data) {
-        result = {
-          "success": 1
-        };
-        res.json(result);
-        req.session.destroy(function(err) {
-          if (err) {
-            console.log(err);
-          } else {
-            console.log("session is destroy");
-          }
-        })
-      })
-
-  })
+  return result;
 }
 
-exports.i18n_load = function(req, res) {
+exports.i18n_load = function() {
   var data = JSON.parse(fs.readFileSync(__dirname + "/../../public/i18n/config.js", 'utf8'));
   console.log(data);
-  res.send(data);
+  return data;
 }
 
-exports.i18n_save = function(req, res) {
-  var language = req.query.lang;
+exports.i18n_save = function(language) {
   var lang_json = {};
   lang_json.language = language;
   fs.writeFileSync(__dirname + "/../../public/i18n/config.js",
@@ -65,5 +59,5 @@ exports.i18n_save = function(req, res) {
         "success": 1
       };
     })
-  res.send(language);
+  return language;
 }
