@@ -20,6 +20,7 @@ module.exports = function(app, fs, url){
 		res.send(check);
   });
   app.post('/api/auth', function(req, res) {
+		req.accepts('application/json');
     let data = router_auth.api_post(req.query.id, req.body);
 		if (data['success'] == 1) {
 			req.session.destroy(function(err) {

@@ -13,7 +13,6 @@ exports.api_get = function(id, password) {
 }
 
 exports.api_post = function(user_name, body) {
-  req.accepts('application/json');
   // input message handling
   var result = {};
   var user_name = user_name;
