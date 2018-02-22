@@ -5,14 +5,13 @@ const {
   execSync
 } = require('child_process');
 
-exports.api_get = function(req, res) {
+exports.api_get = function() {
   var qwe = exports.savedata_1();
   exports.savedata_2(qwe);
-  fs.readFile(__dirname + "/data/" + "summary.json", 'utf8', function(err, data) {
-    var wpaconfigdata = JSON.parse(data); //json text -> json object
-    //console.log(wpaconfigdata);
-    res.send(wpaconfigdata);
-  })
+  let data = fs.readFileSync(__dirname + "/data/" + "summary.json", 'utf8');
+  var wpaconfigdata = JSON.parse(data); //json text -> json object
+  //console.log(wpaconfigdata);
+  return wpaconfigdata;
 }
 exports.savedata_1 = function() {
   const asd = execSync('ls /sys/class/net | grep -v lo', {
@@ -42,41 +41,35 @@ exports.savedata_2 = function(text) {
       })
   }
 }
-exports.api_post = function(req, res) {
-  req.accepts('application/json');
+exports.api_post = function(adapt_name, json) {
   // input message handling
-  var result = {};
-  var adapt_name = req.query.adaptname;
-  json = req.body;
-  exports.api_post_datasave(req, res, adapt_name, result);
-}
-exports.api_post_datasave = function(req, res, adapt_name, result) {
-  // output message
-  fs.readFile(__dirname + "/data/" + "connecting_lan_data.json", 'utf8', function(err, data) {
-    var users = JSON.parse(data);
-    // ADD TO DATA
-    users[adapt_name] = req.body;
-    exports.datasave_AP(users, adapt_name);
-    // SAVE DATA
-    fs.writeFile(__dirname + "/data/" + "connecting_lan_data.json",
-      JSON.stringify(users, null, '\t'), "utf8",
-      function(err, data) {
-        result = {
-          "success": 1
-        };
-        res.json(result);
-      })
-  })
+  let data = exports.api_post_datasave(adapt_name, json);
+  return data;
 }
 
-exports.i18n_load = function(req, res) {
+exports.api_post_datasave = function(adapt_name, json) {
+  // output message
+  let data = fs.readFileSync(__dirname + "/data/" + "connecting_lan_data.json", 'utf8');
+  var users = JSON.parse(data);
+  // ADD TO DATA
+  users[adapt_name] = json;
+  // SAVE DATA
+  let result = new Object();
+  fs.writeFileSync(__dirname + "/data/" + "connecting_lan_data.json",
+    JSON.stringify(users, null, '\t'), "utf8",
+    function(err, data) {
+      result.success = 1;
+    })
+  return result;
+}
+
+exports.i18n_load = function() {
   var data = JSON.parse(fs.readFileSync(__dirname + "/../../public/i18n/config.js", 'utf8'));
   console.log(data);
-  res.send(data);
+  return data;
 }
 
-exports.i18n_save = function(req, res) {
-  var language = req.query.lang;
+exports.i18n_save = function(language) {
   var lang_json = {};
   lang_json.language = language;
   fs.writeFileSync(__dirname + "/../../public/i18n/config.js",
@@ -86,5 +79,5 @@ exports.i18n_save = function(req, res) {
         "success": 1
       };
     })
-  res.send(language);
+  return language;
 }

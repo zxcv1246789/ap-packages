@@ -12,17 +12,22 @@ module.exports = function(app, fs, url){
     }
   });
   app.get('/api/networking', function(req, res) {
-    router_networking.api_get(req, res);
-  });
+    let data = router_networking.api_get();
+		res.send(data);
+	});
   app.post('/api/networking', function(req, res) {
-    router_networking.api_post(req, res);
-  });
+		req.accepts('application/json');
+    let data = router_networking.api_post(req.query.adaptname, req.body);
+		res.send(data);
+	});
 
 	app.get('/i18n_load', function(req, res) {
-    router_networking.i18n_load(req, res);
+    let data = router_auth.i18n_load();
+		res.send(data);
   });
 	app.get('/i18n_save', function(req, res) {
-    router_networking.i18n_save(req, res);
+    let data = router_auth.i18n_save(req.query.lang);
+		res.send(data);
   });
 
 
