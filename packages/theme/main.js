@@ -13,10 +13,12 @@ module.exports = function(app, fs, url){
   });
 
 	app.get('/i18n_load', function(req, res) {
-    router_theme.i18n_load(req, res);
+    let data = router_auth.i18n_load();
+		res.send(data);
   });
 	app.get('/i18n_save', function(req, res) {
-    router_theme.i18n_save(req, res);
+    let data = router_auth.i18n_save(req.query.lang);
+		res.send(data);
   });
 
 };
