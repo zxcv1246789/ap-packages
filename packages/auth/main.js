@@ -16,7 +16,7 @@ module.exports = function(app, fs, url){
     sess = req.session;
     var id = req.query.id;
     var password = req.query.password;
-    router_auth.api_get(id, password);
+    let check = router_auth.api_get(id, password);
 		res.send(check);
   });
   app.post('/api/auth', function(req, res) {
