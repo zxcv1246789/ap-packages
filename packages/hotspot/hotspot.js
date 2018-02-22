@@ -75,7 +75,7 @@ exports.api_get_awk = function() {
 }
 
 exports.api_get_log = function() {
-  let data = fs.readFileSync(__dirname + "/data/" + "hostapd.log", 'utf8');
+  let data = fs.readFileSync(__dirname + "/data/" + "log.txt", 'utf8');
   console.log(data);
   return data;
 }
