@@ -12,14 +12,17 @@ module.exports = function(app, fs, url){
     }
   });
   app.get('/api/wpaconfig', function(req, res) {
-    router_wpaconfig.api_get(req, res);
+    let data = router_wpaconfig.api_get();
+		res.send(data);
   });
 
 	app.get('/i18n_load', function(req, res) {
-    router_wpaconfig.i18n_load(req, res);
+    let data = router_auth.i18n_load();
+		res.send(data);
   });
 	app.get('/i18n_save', function(req, res) {
-    router_wpaconfig.i18n_save(req, res);
+    let data = router_auth.i18n_save(req.query.lang);
+		res.send(data);
   });
 
 };
