@@ -17,24 +17,33 @@ module.exports = function(app, fs, url){
     var type = req.query.type;
     var select = req.query.select;
     if (type == "basic") {
-      router_hotspot.api_get_basic(req, res);
-    } else if (type == "security") {
-      router_hotspot.api_get_security(req, res);
-    } else if (type == "advanced") {
-      router_hotspot.api_get_advanced(req, res);
-    } else if (type == "awk") {
-      router_hotspot.api_get_awk(req, res);
-    } else if (type == "get") {
-      router_hotspot.api_get(req, res);
+      let data = router_hotspot.api_get_basic();
+			res.send(data);
+		} else if (type == "security") {
+      let data = router_hotspot.api_get_security();
+			res.send(data);
+		} else if (type == "advanced") {
+      let data = router_hotspot.api_get_advanced();
+			res.send(data);
+		} else if (type == "awk") {
+      let data = router_hotspot.api_get_awk();
+			res.send(data);
+		} else if (type == "get") {
+      let data = router_hotspot.api_get();
+			res.send(data);
     } else if (type == "logging") {
-      router_hotspot.api_get_log(req, res);
+      let data = router_hotspot.api_get_log();
+			res.send(data);
     } else if (type == "wlan0stopstart") {
-      if (select == 0) { //stop 시키는 부분
-        router_hotspot.hotspot_stop(req, res);
-      } else if (select == 1) { //start 시키는 부분
-        router_hotspot.hotspot_start(req, res);
+			if (select == 0) { //stop 시키는 부분
+        let data = router_hotspot.hotspot_stop();
+				res.send(data);
+			} else if (select == 1) { //start 시키는 부분
+        let data = router_hotspot.hotspot_start();
+				res.send(data);
       } else {
-        router_hotspot.start_stopbutton(req, res);
+				let data = router_hotspot.start_stopbutton();
+				res.send(data);
       }
     }
   });
@@ -46,19 +55,24 @@ module.exports = function(app, fs, url){
     console.log('type : ' + json.type);
 
     if (json.type == "basic") {
-      router_hotspot.api_post_basic(req, res);
+			let data = router_hotspot.api_post_basic(json);
+			res.json(data);
     } else if (json.type == "security") {
-      router_hotspot.api_post_security(req, res);
+			let data = router_hotspot.api_post_security(json);
+			res.json(data);
     } else if (json.type == "advanced") {
-      router_hotspot.api_post_advanced(req, res);
+			let data = router_hotspot.api_post_advanced(json);
+			res.json(data);
     }
   });
 
 	app.get('/i18n_load', function(req, res) {
-    router_hotspot.i18n_load(req, res);
+    let data = router_system.i18n_load();
+		res.send(data);
   });
-	app.get('/i18n_save', function(req, res) {
-    router_hotspot.i18n_save(req, res);
-  });
+  app.get('/i18n_save', function(req, res) {
+    let data = router_system.i18n_save(req.query.lang);
+		res.send(data);
+	});
 
 };

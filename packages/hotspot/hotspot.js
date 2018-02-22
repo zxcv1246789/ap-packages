@@ -1,89 +1,83 @@
 var fs = require("fs");
 var exec = require('child_process').exec,
   child;
-  const {
-    execSync
-  } = require('child_process');
+const {
+  execSync
+} = require('child_process');
 
-exports.api_get = function(req, res) {
+exports.api_get = function() {
   exports.read_pidof_hostapd();
-  fs.readFile(__dirname + "/data/" + "hotspotdata.json", 'utf8', function(err, data) {
-    var hotspotdata = JSON.parse(data); //json text -> json object
-    child = exec("cat /etc/hostapd/hostapd.conf", function(error, stdout, stderr) {
-      console.log('hostapd: ' + stdout);
-      var arr = stdout.split("\n");
-      //console.log('split: ' + arr[0]);
-      for (var i = 0; i < arr.length - 1; i++) {
-        arr[i] = arr[i].split("=");
-        console.log('split: ' + arr[i][0] + ", " + arr[i][1]);
-      }
-      exports.savedata_basic(arr);
-      exports.savedata_security(arr);
-      exports.savedata_advanced(arr);
+  let data = fs.readFileSync(__dirname + "/data/" + "hotspotdata.json", 'utf8');
+  var hotspotdata = JSON.parse(data); //json text -> json object
+  const stdout = execSync("cat /etc/hostapd/hostapd.conf", {
+    encoding: 'utf8'
+  });
 
-    });
-    res.send(hotspotdata);
-  })
+  console.log('hostapd: ' + stdout);
+  var arr = stdout.split("\n");
+  //console.log('split: ' + arr[0]);
+  for (var i = 0; i < arr.length - 1; i++) {
+    arr[i] = arr[i].split("=");
+    console.log('split: ' + arr[i][0] + ", " + arr[i][1]);
+  }
+  exports.savedata_basic(arr);
+  exports.savedata_security(arr);
+  exports.savedata_advanced(arr);
+
+  return hotspotdata;
 }
 exports.read_pidof_hostapd = function() {
-  child = exec("pidof hostapd | wc -l", function(error, stdout, stderr) {
-    var data = {}; //오브젝트
-    if (stdout[0] == 0) {
-      data['HostAPD is'] = false;
-    } else if (stdout[0] == 1) {
-      data['HostAPD is'] = true;
-    }
-    var hostapddata = {};
-    hostapddata['alert_select'] = data;
-
-    fs.writeFileSync(__dirname + "/data/" + "hotspotdata.json",
-      JSON.stringify(hostapddata, null, '\t'), "utf8",
-      function(err, data) {
-        result = {
-          "success": 1
-        };
-      })
+  const stdout = execSync("pidof hostapd | wc -l", {
+    encoding: 'utf8'
   });
-}
-exports.api_get_basic = function(req, res) {
-  fs.readFile(__dirname + "/data/" + "basicdata.json", 'utf8', function(err, data) {
-    var basicdata = JSON.parse(data); //json text -> json object
-    res.send(basicdata);
-  })
-}
-exports.api_get_advanced = function(req, res) {
-  fs.readFile(__dirname + "/data/" + "advanceddata.json", 'utf8', function(err, data) {
-    var advanceddata = JSON.parse(data); //json text -> json object
+  var data = {}; //오브젝트
+  if (stdout[0] == 0) {
+    data['HostAPD is'] = false;
+  } else if (stdout[0] == 1) {
+    data['HostAPD is'] = true;
+  }
+  var hostapddata = {};
+  hostapddata['alert_select'] = data;
 
-    res.send(advanceddata);
-  })
+  fs.writeFileSync(__dirname + "/data/" + "hotspotdata.json",
+    JSON.stringify(hostapddata, null, '\t'), "utf8",
+    function(err, data) {
+      result = {
+        "success": 1
+      };
+    })
 }
-exports.api_get_security = function(req, res) {
-  fs.readFile(__dirname + "/data/" + "securitydata.json", 'utf8', function(err, data) {
-    var securitydata = JSON.parse(data); //json text -> json object
-
-    res.send(securitydata);
-  })
+exports.api_get_basic = function() {
+  let data = fs.readFileSync(__dirname + "/data/" + "basicdata.json", 'utf8');
+  var basicdata = JSON.parse(data); //json text -> json object
+  return basicdata;
 }
-exports.api_get_awk = function(req, res) {
-
-  child = exec("ip -o link show | awk -F': ' '{print $2}'", function(error, stdout, stderr) {
-    var arr = stdout.split("\n");
-    var awkdata = {}; //오브젝트
-    for (var a = 0; a < arr.length; a++) {
-      awkdata[a] = arr[a];
-    }
-    res.send(awkdata);
-
+exports.api_get_advanced = function() {
+  let data = fs.readFileSync(__dirname + "/data/" + "advanceddata.json", 'utf8');
+  var advanceddata = JSON.parse(data); //json text -> json object
+  return advanceddata;
+}
+exports.api_get_security = function() {
+  let data = fs.readFileSync(__dirname + "/data/" + "securitydata.json", 'utf8');
+  var securitydata = JSON.parse(data); //json text -> json object
+  return securitydata;
+}
+exports.api_get_awk = function() {
+  const stdout = execSync("ip -o link show | awk -F': ' '{print $2}'", {
+    encoding: 'utf8'
   });
+  var arr = stdout.split("\n");
+  var awkdata = {}; //오브젝트
+  for (var a = 0; a < arr.length; a++) {
+    awkdata[a] = arr[a];
+  }
+  return awkdata;
 }
 
-exports.api_get_log = function(req, res) {
-
-  fs.readFile(__dirname + "/data/" + "hostapd.log", 'utf8', function(err, data) {
-    console.log(data);
-    res.send(data);
-  })
+exports.api_get_log = function() {
+  let data = fs.readFileSync(__dirname + "/data/" + "hostapd.log", 'utf8');
+  console.log(data);
+  return data;
 }
 
 exports.savedata_basic = function(arr) {
@@ -137,40 +131,37 @@ exports.savedata_advanced = function(arr) {
 }
 
 
-exports.api_post_basic = function(req, res) {
+exports.api_post_basic = function(json) {
+  let result = new Object();
   fs.writeFileSync(__dirname + "/data/" + "basicdata.json",
     JSON.stringify(json, null, '\t'), "utf8",
     function(err, data) {
-      result = {
-        "success": 1
-      };
+      result.success = 1;
       exports.tmp_file_save();
-      res.json(result);
     })
+  return result;
 }
 
-exports.api_post_security = function(req, res) {
+exports.api_post_security = function(json) {
+  let result = new Object();
   fs.writeFileSync(__dirname + "/data/" + "securitydata.json",
     JSON.stringify(json, null, '\t'), "utf8",
     function(err, data) {
-      result = {
-        "success": 1
-      };
+      result.success = 1;
       exports.tmp_file_save();
-      res.json(result);
     })
+  return result;
 }
 
-exports.api_post_advanced = function(req, res) {
+exports.api_post_advanced = function(json) {
+  let result = new Object();
   fs.writeFileSync(__dirname + "/data/" + "advanceddata.json",
     JSON.stringify(json, null, '\t'), "utf8",
     function(err, data) {
-      result = {
-        "success": 1
-      };
+      result.success = 1;
       exports.tmp_file_save();
-      res.json(result);
     })
+  return result;
 }
 
 exports.tmp_file_save = function() {
@@ -207,37 +198,38 @@ exports.tmp_file_save = function() {
   });
 }
 
-exports.start_stopbutton = function(req, res) {
-  child = exec("pidof hostapd | wc -l", function(error, stdout, stderr) {
-    res.send(stdout);
+exports.start_stopbutton = function() {
+  const stdout = execSync("pidof hostapd | wc -l", {
+    encoding: 'utf8'
   });
+  return stdout;
 }
 
-exports.hotspot_stop = function(req, res) {
+exports.hotspot_stop = function() {
+  result = {
+    "success": 0
+  };
   child = exec("sudo /etc/init.d/hostapd stop", function(error, stdout, stderr) {
-    result = {
-      "success": 0
-    };
-    res.send(result);
+
   });
+  return result;
 }
-exports.hotspot_start = function(req, res) {
+exports.hotspot_start = function() {
+  result = {
+    "success": 1
+  };
   child = exec("sudo /etc/init.d/hostapd start", function(error, stdout, stderr) {
-    result = {
-      "success": 1
-    };
-    res.send(result);
+
   });
+  return result;
 }
 
-exports.i18n_load = function(req, res) {
+exports.i18n_load = function() {
   var data = JSON.parse(fs.readFileSync(__dirname + "/../../public/i18n/config.js", 'utf8'));
   console.log(data);
-  res.send(data);
+  return data;
 }
-
-exports.i18n_save = function(req, res) {
-  var language = req.query.lang;
+exports.i18n_save = function(language) {
   var lang_json = {};
   lang_json.language = language;
   fs.writeFileSync(__dirname + "/../../public/i18n/config.js",
@@ -247,5 +239,5 @@ exports.i18n_save = function(req, res) {
         "success": 1
       };
     })
-  res.send(language);
+  return language;
 }
