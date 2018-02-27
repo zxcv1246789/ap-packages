@@ -68,6 +68,10 @@
       </div>
       <!-- /.navbar-default -->
       <div style="float: right; padding: 5px 5px;">
+        <button id="logout" type="button" class="btn btn-outline-secondary" onclick="logout_button()">Logout</button>
+      </div>
+
+      <div style="float: right; padding: 5px 5px;">
         <select id="lang_select" class="form-control" onchange="changeLng()">
           <option value="en">english</option>
           <option value="ko">한국어</option>
@@ -207,6 +211,7 @@
 
   <script src="side_menu/functions.js"></script>
 
+  <script src="logout/logout.js"></script>
   <!-- jQuery -->
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
 

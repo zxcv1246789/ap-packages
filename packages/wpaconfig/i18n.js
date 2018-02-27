@@ -14,7 +14,8 @@ i18next.init({
         "ssid": "SSID",
         "channel": "Channel",
         "security": "Security",
-        "passphrase": "Passphrase"
+        "passphrase": "Passphrase",
+        "logout": "Logout"
       }
     },
     ko: {
@@ -27,7 +28,8 @@ i18next.init({
         "ssid": "SSID",
         "channel": "채널",
         "security": "보안",
-        "passphrase": "암호"
+        "passphrase": "암호",
+        "logout": "로그아웃"
       }
     }
   }
@@ -52,6 +54,7 @@ function updateContent_infor() {
   document.getElementById('i18_channel').innerHTML = i18next.t('channel');
   document.getElementById('i18_security').innerHTML = i18next.t('security');
   document.getElementById('i18_passphrase').innerHTML = i18next.t('passphrase');
+  document.getElementById('logout').innerHTML = i18next.t('logout');
 }
 
 function changeLng() {

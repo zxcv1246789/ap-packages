@@ -35,7 +35,8 @@ i18next.init({
         "security_hotspotstart": "Start hotspot",
         "advanced_savesetbtn": "Save settings",
         "advanced_hotspotstop": "Stop hotspot",
-        "advanced_hotspotstart": "Start hotspot"
+        "advanced_hotspotstart": "Start hotspot",
+        "logout": "Logout"
       }
     },
     ko: {
@@ -69,7 +70,8 @@ i18next.init({
         "security_hotspotstart": "Hotspot 시작",
         "advanced_savesetbtn": "설정 저장",
         "advanced_hotspotstop": "Hotspot 종료",
-        "advanced_hotspotstart": "Hotspot 시작"
+        "advanced_hotspotstart": "Hotspot 시작",
+        "logout": "로그아웃"
       }
     }
   }
@@ -103,6 +105,7 @@ function updateContent_infor() {
   document.getElementById('i18_enable_logging').innerHTML = i18next.t('enable_logging');
   document.getElementById('i18_country_code').innerHTML = i18next.t('country_code');
   document.getElementById('i18_hostapd_infor_prov').innerHTML = i18next.t('hostapd_infor_prov');
+  document.getElementById('logout').innerHTML = i18next.t('logout');
 }
 function updateContent_not_logenable(){
   if(document.getElementById('i18_log_notenable') != null) {

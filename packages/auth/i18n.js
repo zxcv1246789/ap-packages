@@ -12,7 +12,8 @@ i18next.init({
         "next_btn": "Login",
         "newpwd": "New password",
         "rep_newpwd": "Repeat New password",
-        "completebtn": "Save settings"
+        "completebtn": "Save settings",
+        "logout": "Logout"
       }
     },
     ko: {
@@ -23,7 +24,8 @@ i18next.init({
         "next_btn": "로그인",
         "newpwd": "새 비밀번호",
         "rep_newpwd": "새 비밀번호 확인",
-        "completebtn": "비밀번호 저장"
+        "completebtn": "비밀번호 저장",
+        "logout": "로그아웃"
       }
     }
   }
@@ -40,6 +42,7 @@ function updateContent_nav() {
 
 function updateContent_infor() {
   document.getElementById('i18_confauth').innerHTML = i18next.t('conf_auth');
+  document.getElementById('logout').innerHTML = i18next.t('logout');
 
   if(document.getElementById('i18_username') != null) {
     document.getElementById('i18_username').innerHTML = i18next.t('username');

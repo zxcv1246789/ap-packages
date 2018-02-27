@@ -29,7 +29,8 @@ i18next.init({
         "lease_time": "Lease time",
         "saveset_btn": "Save settings",
         "stop_dns": "Stop dnamasq",
-        "start_dns": "Start dnsmasq"
+        "start_dns": "Start dnsmasq",
+        "logout": "Logout"
       }
     },
     ko: {
@@ -57,7 +58,8 @@ i18next.init({
         "lease_time": "임대 시간",
         "saveset_btn": "설정 저장",
         "stop_dns": "Dnsmasq 중지",
-        "start_dns": "Dnsmasq 시작"
+        "start_dns": "Dnsmasq 시작",
+        "logout": "로그아웃"
       }
     }
   }
@@ -85,7 +87,8 @@ function updateContent_infor() {
   document.getElementById('i18_active_dhcp_leases').innerHTML = i18next.t('active_dhcp_leases');
   document.getElementById('i18_dnsmasq_infor_prov').innerHTML = i18next.t('dnsmasq_infor_prov');
   document.getElementById('i18_rescanbtn').value = i18next.t('rescanbtn');
-
+  document.getElementById('logout').innerHTML = i18next.t('logout');
+  
   if(document.getElementById('i18_dnsmasq_dec_run') != null) {
     document.getElementById('i18_dnsmasq_dec_run').innerHTML = i18next.t('dnsmasq_dec_run');
   }

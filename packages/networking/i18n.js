@@ -29,7 +29,8 @@ i18next.init({
         "alternate_dns": "Alternate DNS Server",
         "savesetbtn": "Save settings",
         "apply_setting": "Apply Settings",
-        "net_infor_prov": "Information provided by /sys/class/net"
+        "net_infor_prov": "Information provided by /sys/class/net",
+        "logout": "Logout"
       }
     },
     ko: {
@@ -57,7 +58,8 @@ i18next.init({
         "alternate_dns": "대체 DNS 서버",
         "savesetbtn": "설정 저장",
         "apply_setting": "설정 적용",
-        "net_infor_prov": "/sys/class/net에서 제공하는 정보입니다."
+        "net_infor_prov": "/sys/class/net에서 제공하는 정보입니다.",
+        "logout": "로그아웃"
       }
     }
   }
@@ -83,6 +85,7 @@ function updateContent_infor() {
   document.getElementById('i18_refresh').value = i18next.t('refresh');
 
   document.getElementById('i18_net_infor_prov').innerHTML = i18next.t('net_infor_prov');
+  document.getElementById('logout').innerHTML = i18next.t('logout');
 }
 function updateContent_eth0() {
   document.getElementById('i18_eth0adapt_ip_setting').innerHTML = i18next.t('adapt_ip_setting');

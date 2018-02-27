@@ -6,10 +6,12 @@ i18next.init({
   resources: {
     en: {
       translation: {
+        "logout": "Logout"
       }
     },
     ko: {
       translation: {
+        "logout": "로그아웃"
       }
     }
   }
@@ -21,9 +23,10 @@ i18next.init({
 
 function updateContent_nav() {
 
-
 }
-
+function updateContent_infor() {
+  document.getElementById('logout').innerHTML = i18next.t('logout');
+}
 
 function changeLng() {
   var langSelect = document.getElementById("lang_select");
